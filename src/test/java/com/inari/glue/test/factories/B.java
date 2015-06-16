@@ -1,8 +1,8 @@
 package com.inari.glue.test.factories;
 
-import com.inari.commons.config.IConfigObject;
+import com.inari.commons.config.ConfigObject;
 
-public class B extends A implements IConfigObject {
+public class B extends A implements ConfigObject {
     
     @Override
     public void build() {

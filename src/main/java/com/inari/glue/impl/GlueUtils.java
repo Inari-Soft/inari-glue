@@ -40,13 +40,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.inari.commons.config.Configured;
-import com.inari.commons.config.IConfigObject;
+import com.inari.commons.config.ConfigObject;
 
 public abstract class GlueUtils {
     
-    public static final Collection<Field> getAllConfiguredFields( IConfigObject instance ) {
+    public static final Collection<Field> getAllConfiguredFields( ConfigObject instance ) {
         Collection<Field> fields = new ArrayList<Field>();
-        Class<? extends IConfigObject> currentClass = instance.getClass();
+        Class<? extends ConfigObject> currentClass = instance.getClass();
         while ( currentClass != null ) {
             collectConfiguredFields( currentClass, fields );
             currentClass = findSuperIConfigObjectClass( currentClass );
@@ -55,7 +55,7 @@ public abstract class GlueUtils {
         return fields;
     }
     
-    private static final void collectConfiguredFields( Class<? extends IConfigObject> clazz, Collection<Field> fields ) {
+    private static final void collectConfiguredFields( Class<? extends ConfigObject> clazz, Collection<Field> fields ) {
         for ( Field field : clazz.getDeclaredFields() ) {
             if ( field.getAnnotation( Configured.class ) != null ) {
                 fields.add( field );
@@ -64,17 +64,17 @@ public abstract class GlueUtils {
     }
     
     @SuppressWarnings("unchecked")
-    private static final Class<? extends IConfigObject> findSuperIConfigObjectClass( Class<? extends IConfigObject> clazz ) {
+    private static final Class<? extends ConfigObject> findSuperIConfigObjectClass( Class<? extends ConfigObject> clazz ) {
         if ( clazz.getSuperclass() == null ) {
             return null;
         }
         
         Class<?> currentClass = clazz.getSuperclass();
-        while ( ( currentClass != null ) && ( !IConfigObject.class.isAssignableFrom( currentClass ) ) ) {
+        while ( ( currentClass != null ) && ( !ConfigObject.class.isAssignableFrom( currentClass ) ) ) {
             currentClass = currentClass.getSuperclass();
         }
         
-        return (Class<? extends IConfigObject>) currentClass;
+        return (Class<? extends ConfigObject>) currentClass;
     } 
 
 }

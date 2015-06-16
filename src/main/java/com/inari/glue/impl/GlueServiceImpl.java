@@ -42,7 +42,7 @@ import java.util.Map;
 import com.inari.glue.GlueContext;
 import com.inari.glue.GlueException;
 import com.inari.glue.GlueService;
-import com.inari.commons.config.IConfigObject;
+import com.inari.commons.config.ConfigObject;
 
 public class GlueServiceImpl implements GlueService {
 
@@ -75,7 +75,7 @@ public class GlueServiceImpl implements GlueService {
     }
 
     @Override
-    public void addConfig( GlueContext context, IConfigObject obj ) throws GlueException {
+    public void addConfig( GlueContext context, ConfigObject obj ) throws GlueException {
         if ( context == null ) {
             throw new GlueException( "IGlueContext has null reference!" );
         }

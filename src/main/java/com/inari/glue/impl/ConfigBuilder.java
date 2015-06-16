@@ -43,8 +43,8 @@ import com.inari.glue.GlueContext;
 import com.inari.glue.GlueException;
 import com.inari.commons.StringUtils;
 import com.inari.commons.config.Configured;
-import com.inari.commons.config.IConfigObject;
-import com.inari.commons.config.IStringConfigurable;
+import com.inari.commons.config.ConfigObject;
+import com.inari.commons.config.StringConfigurable;
 
 public class ConfigBuilder {
     
@@ -54,7 +54,7 @@ public class ConfigBuilder {
         this.context = context;
     }
     
-    public void build( IConfigObject instance ) {
+    public void build( ConfigObject instance ) {
         String id = instance.configId();
         
         if ( id == null ) {
@@ -74,7 +74,7 @@ public class ConfigBuilder {
         }
     }
 
-    protected void buildFieldValue( Field field, IConfigObject instance, ConfigData configData ) {
+    protected void buildFieldValue( Field field, ConfigObject instance, ConfigData configData ) {
         Configured configProperty = field.getAnnotation( Configured.class );
         if ( configProperty == null ) {
             return;
@@ -104,14 +104,14 @@ public class ConfigBuilder {
             return;
         }
         
-        if ( IConfigObject.class.isAssignableFrom( field.getType() ) ) {
-            buildReference( valueName, (IConfigObject) value, configData );
+        if ( ConfigObject.class.isAssignableFrom( field.getType() ) ) {
+            buildReference( valueName, (ConfigObject) value, configData );
         } else {
             buildProperty( valueName, value, configData );
         }
     }
     
-    protected void buildReference( String name, IConfigObject value, ConfigData configData ) {
+    protected void buildReference( String name, ConfigObject value, ConfigData configData ) {
         if ( value == null ) {
             return;
         }
@@ -147,8 +147,8 @@ public class ConfigBuilder {
             return;
         }
         
-        if ( value instanceof IStringConfigurable ) {
-            configData.put( name, ( (IStringConfigurable) value ).toConfigString() );
+        if ( value instanceof StringConfigurable ) {
+            configData.put( name, ( (StringConfigurable) value ).toConfigString() );
             return;
         }
         
@@ -157,8 +157,8 @@ public class ConfigBuilder {
 
     private void checkAndBuildAll( Collection<?> values ) {
         for ( Object val : values ) {
-            if ( val instanceof IConfigObject ) {
-                IConfigObject configObj = (IConfigObject) val;
+            if ( val instanceof ConfigObject ) {
+                ConfigObject configObj = (ConfigObject) val;
                 if ( configObj.configId() != null ) {
                     build( configObj );
                 } 

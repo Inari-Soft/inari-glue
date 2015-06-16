@@ -25,7 +25,7 @@ import com.inari.glue.test.factories.C;
 import com.inari.glue.test.factories.D;
 import com.inari.glue.test.factories.E;
 import com.inari.glue.test.factories.TestFactory;
-import com.inari.commons.config.IConfigObject;
+import com.inari.commons.config.ConfigObject;
 import com.inari.commons.lang.TypedKey;
 
 public class GlueContextImplTest {
@@ -47,7 +47,7 @@ public class GlueContextImplTest {
         );
         assertTrue( context.hasConfig( "test1" ) );
         
-        Class<? extends IConfigObject> type = data.type();
+        Class<? extends ConfigObject> type = data.type();
         assertNotNull( type );
         assertEquals( 
             "class com.inari.glue.test.TestObject1", 
@@ -129,7 +129,7 @@ public class GlueContextImplTest {
         GlueService service = new GlueServiceImpl();
         GlueContextImpl context = (GlueContextImpl) service.createContext( "testContext" );
         
-        IConfigObject obj = context.getInstance( (TypedKey<IConfigObject>) null );
+        ConfigObject obj = context.getInstance( (TypedKey<ConfigObject>) null );
         assertNull( obj );
         
         try {

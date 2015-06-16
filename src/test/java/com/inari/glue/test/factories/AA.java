@@ -1,8 +1,8 @@
 package com.inari.glue.test.factories;
 
-import com.inari.commons.config.IConfigObject;
+import com.inari.commons.config.ConfigObject;
 
-public abstract class AA implements IConfigObject {
+public abstract class AA implements ConfigObject {
     
     private String configId = null;
 

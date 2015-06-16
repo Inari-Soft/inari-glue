@@ -1,10 +1,10 @@
 package com.inari.glue.test;
 
 import com.inari.commons.config.Configured;
-import com.inari.commons.config.IConfigObject;
+import com.inari.commons.config.ConfigObject;
 import com.inari.commons.geom.Direction;
 
-public class TestEnum implements IConfigObject {
+public class TestEnum implements ConfigObject {
     
     private String configId;
     @Configured

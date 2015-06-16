@@ -1,7 +1,7 @@
 package com.inari.glue.test.factories;
 
-import com.inari.commons.config.IConfigObject;
+import com.inari.commons.config.ConfigObject;
 
-public interface IA extends IConfigObject {
+public interface IA extends ConfigObject {
 
 }

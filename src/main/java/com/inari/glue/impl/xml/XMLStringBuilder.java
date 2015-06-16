@@ -51,7 +51,7 @@ import com.inari.glue.GlueException;
 import com.inari.glue.impl.Alias;
 import com.inari.glue.impl.ConfigData;
 import com.inari.glue.impl.GlueContextImpl;
-import com.inari.commons.config.IConfigObject;
+import com.inari.commons.config.ConfigObject;
 
 public class XMLStringBuilder {
     
@@ -173,7 +173,7 @@ public class XMLStringBuilder {
         builder.append( "</" ).append( ID_PROPERTY ).append( ">" );
     }
     
-    private String getType( Class<? extends IConfigObject> typeClass ) {
+    private String getType( Class<? extends ConfigObject> typeClass ) {
         Alias alias = context.getAlias( typeClass );
         if ( alias != null ) {
             return alias.alias();

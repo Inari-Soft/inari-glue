@@ -14,8 +14,8 @@ import org.junit.Test;
 
 import com.inari.glue.GlueException;
 import com.inari.glue.test.TestObject1;
-import com.inari.commons.config.IConfigObject;
-import com.inari.commons.config.IStringConfigurable;
+import com.inari.commons.config.ConfigObject;
+import com.inari.commons.config.StringConfigurable;
 import com.inari.commons.geom.Position;
 import com.inari.commons.geom.Rectangle;
 
@@ -23,7 +23,7 @@ public class ConfigDataTest {
     
     @Test
     public void testConfigData() {
-        ConfigData cData = new ConfigData( "test", IConfigObject.class );
+        ConfigData cData = new ConfigData( "test", ConfigObject.class );
         
         assertEquals( 
             "ConfigData: id:test {\n" + 
@@ -60,7 +60,7 @@ public class ConfigDataTest {
     
     @Test
     public void testGetOptional() {
-        ConfigData cData = new ConfigData( "test", IConfigObject.class );
+        ConfigData cData = new ConfigData( "test", ConfigObject.class );
         cData.put( "stringValue", "A String Value" );
         
         assertEquals( "A String Value", cData.getOptional( "stringValue", "defaultValue" ) );
@@ -70,7 +70,7 @@ public class ConfigDataTest {
     
     @Test
     public void testGetMandatory() {
-        ConfigData cData = new ConfigData( "test", IConfigObject.class );
+        ConfigData cData = new ConfigData( "test", ConfigObject.class );
         cData.put( "stringValue", "A String Value" );
         
         assertEquals( "A String Value", cData.getMandatory( "stringValue" ) );
@@ -84,7 +84,7 @@ public class ConfigDataTest {
     
     @Test
     public void testPutAndGetCollection() {
-        ConfigData cData = new ConfigData( "test", IConfigObject.class );
+        ConfigData cData = new ConfigData( "test", ConfigObject.class );
         Collection<String> list1 = new ArrayList<String>();
         
         assertEquals( 
@@ -137,7 +137,7 @@ public class ConfigDataTest {
         
         // a collection of IConfigObject instances
         cData.clear();
-        Collection<IConfigObject> list2 = new ArrayList<IConfigObject>();
+        Collection<ConfigObject> list2 = new ArrayList<ConfigObject>();
         list2.add( new TestObject1( "configObject1" ) );
         list2.add( new TestObject1( "configObject2" ) );
         
@@ -151,7 +151,7 @@ public class ConfigDataTest {
         
         // a collection if IStringConfigurable instances
         cData.clear();
-        Collection<IStringConfigurable> list3 = new ArrayList<IStringConfigurable>();
+        Collection<StringConfigurable> list3 = new ArrayList<StringConfigurable>();
         list3.add( new Position( 10, 10 ) );
         list3.add( new Rectangle( 10, 10, 100, 100 ) );
         
@@ -171,7 +171,7 @@ public class ConfigDataTest {
     
     @Test
     public void testPutGetMap() {
-        ConfigData cData = new ConfigData( "test", IConfigObject.class );
+        ConfigData cData = new ConfigData( "test", ConfigObject.class );
         Map<String, String> map1 = new LinkedHashMap<String, String>();
         
         assertEquals( 
@@ -224,7 +224,7 @@ public class ConfigDataTest {
         
         // a map of IConfigObject instances
         cData.clear();
-        Map<String, IConfigObject> map2 = new LinkedHashMap<String, IConfigObject>();
+        Map<String, ConfigObject> map2 = new LinkedHashMap<String, ConfigObject>();
         map2.put( "value1", new TestObject1( "configObject1" ) );
         map2.put( "value2", new TestObject1( "configObject2" ) );
         
@@ -238,7 +238,7 @@ public class ConfigDataTest {
         
         // a collection if IStringConfigurable instances
         cData.clear();
-        Map<String, IStringConfigurable> map3 = new LinkedHashMap<String, IStringConfigurable>();
+        Map<String, StringConfigurable> map3 = new LinkedHashMap<String, StringConfigurable>();
         map3.put( "value1", new Position( 10, 10 ) );
         map3.put( "value2", new Rectangle( 10, 10, 100, 100 ) );
         

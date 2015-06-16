@@ -39,7 +39,7 @@ import java.util.Collection;
 
 import com.inari.glue.impl.Alias;
 import com.inari.glue.impl.ConfigData;
-import com.inari.commons.config.IConfigObject;
+import com.inari.commons.config.ConfigObject;
 import com.inari.commons.lang.TypedKey;
 
 
@@ -52,22 +52,22 @@ public interface GlueContext {
     
     // --- Alias ---
     
-    public Alias defineAlias( String typeName, Class<? extends IConfigObject> type ) throws GlueException;
+    public Alias defineAlias( String typeName, Class<? extends ConfigObject> type ) throws GlueException;
     
 
     // --- ConfigData ---
     
     public Collection<String> getAllConfigIds();
 
-    public ConfigData createConfig( TypedKey<? extends IConfigObject> key ) throws GlueException;
+    public ConfigData createConfig( TypedKey<? extends ConfigObject> key ) throws GlueException;
     
-    public ConfigData createConfig( String id, Class<? extends IConfigObject> type ) throws GlueException;
+    public ConfigData createConfig( String id, Class<? extends ConfigObject> type ) throws GlueException;
     
-    public ConfigData getOrCreateConfig( String id, Class<? extends IConfigObject> type );
+    public ConfigData getOrCreateConfig( String id, Class<? extends ConfigObject> type );
     
     public ConfigData getConfig( String id );
     
-    public ConfigData getConfig( IConfigObject obj );
+    public ConfigData getConfig( ConfigObject obj );
     
     public boolean hasConfig( String id );
     
@@ -76,9 +76,9 @@ public interface GlueContext {
     
     // --- Instances ---
     
-    public <T extends IConfigObject> T getInstance( TypedKey<T> key );
+    public <T extends ConfigObject> T getInstance( TypedKey<T> key );
     
-    public <T extends IConfigObject> T getInstance( String id );
+    public <T extends ConfigObject> T getInstance( String id );
     
     public boolean hasInstance( String id  );
     
@@ -90,7 +90,7 @@ public interface GlueContext {
     
     public void registerInstanceFactory( IConfigObjectFactory<?> factory );
     
-    public void unregisterInstanceFactory( Class<? extends IConfigObject> type );
+    public void unregisterInstanceFactory( Class<? extends ConfigObject> type );
     
     public void clearInstanceFactories();
 

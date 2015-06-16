@@ -55,7 +55,7 @@ import com.inari.glue.impl.Alias;
 import com.inari.glue.impl.ConfigData;
 import com.inari.glue.impl.GlueContextImpl;
 import com.inari.commons.StringUtils;
-import com.inari.commons.config.IConfigObject;
+import com.inari.commons.config.ConfigObject;
 
 public class XMLConfigHandler extends DefaultHandler {
     
@@ -119,12 +119,12 @@ public class XMLConfigHandler extends DefaultHandler {
             }
             
             Alias alias = currentContext.getAlias( typeName );
-            Class<? extends IConfigObject> type = null;
+            Class<? extends ConfigObject> type = null;
             if ( alias != null ) {
                 type = alias.type();
             } else {
                 try {
-                    type = (Class<? extends IConfigObject>) Class.forName( typeName );
+                    type = (Class<? extends ConfigObject>) Class.forName( typeName );
                 } catch ( Exception e ) {
                     throw new GlueException( "Failed to create Class-Type form typeName: " + typeName, e );
                 }

@@ -1,7 +1,7 @@
 package com.inari.glue.test;
 
-import com.inari.commons.config.IConfigObject;
+import com.inari.commons.config.ConfigObject;
 
-public interface ITestInterface extends IConfigObject {
+public interface ITestInterface extends ConfigObject {
 
 }

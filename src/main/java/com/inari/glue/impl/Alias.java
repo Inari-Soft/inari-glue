@@ -35,22 +35,22 @@
 */
 package com.inari.glue.impl;
 
-import com.inari.commons.config.IConfigObject;
+import com.inari.commons.config.ConfigObject;
 
 
 public class Alias {
     
     private String typeName;
 
-    private Class<? extends IConfigObject> type;
+    private Class<? extends ConfigObject> type;
     
 
-    public Alias( Class<? extends IConfigObject> type ) {
+    public Alias( Class<? extends ConfigObject> type ) {
         this.typeName = type.getName();
         this.type = type;
     }
     
-    public Alias( String typeName, Class<? extends IConfigObject> type ) {
+    public Alias( String typeName, Class<? extends ConfigObject> type ) {
         this.typeName = typeName;
         this.type = type;
     }
@@ -63,7 +63,7 @@ public class Alias {
         return type.getName();
     }
     
-    public Class<? extends IConfigObject> type() {
+    public Class<? extends ConfigObject> type() {
         return type;
     }
 

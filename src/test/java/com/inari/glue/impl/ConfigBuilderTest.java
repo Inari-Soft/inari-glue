@@ -19,8 +19,8 @@ import com.inari.glue.test.TestObject1;
 import com.inari.glue.test.TestObject2;
 import com.inari.glue.test.TestObject3;
 import com.inari.glue.test.TestObjectMandatory;
-import com.inari.commons.config.IConfigObject;
-import com.inari.commons.config.IStringConfigurable;
+import com.inari.commons.config.ConfigObject;
+import com.inari.commons.config.StringConfigurable;
 import com.inari.commons.geom.Direction;
 import com.inari.commons.geom.Position;
 import com.inari.commons.geom.Rectangle;
@@ -265,12 +265,12 @@ public class ConfigBuilderTest {
         testObj.list.add( 2.2 );
         testObj.list.add( 3.3 );
         
-        testObj.stringConfigurableList = new ArrayList<IStringConfigurable>();
+        testObj.stringConfigurableList = new ArrayList<StringConfigurable>();
         testObj.stringConfigurableList.add( new Position( 1, 1 )  );
         testObj.stringConfigurableList.add( new Position( 10, 10 )  );
         testObj.stringConfigurableList.add( new Position( 100, 100 )  );
         
-        testObj.configObjectList = new ArrayList<IConfigObject>();
+        testObj.configObjectList = new ArrayList<ConfigObject>();
         testObj.configObjectList.add( new TestObject2( "listObjRef1" ) );
         testObj.configObjectList.add( new TestObject2( "listObjRef2" ) );
         testObj.configObjectList.add( new TestObject2( "listObjRef3" ) );
@@ -310,12 +310,12 @@ public class ConfigBuilderTest {
         testObj.map.put( "prop2", "val2" );
         testObj.map.put( "prop3", "val3" );
         
-        testObj.stringConfigurableMap = new LinkedHashMap<String, IStringConfigurable>();
+        testObj.stringConfigurableMap = new LinkedHashMap<String, StringConfigurable>();
         testObj.stringConfigurableMap.put( "point1", new Position( 1, 1 )  );
         testObj.stringConfigurableMap.put( "point2", new Position( 10, 10 )  );
         testObj.stringConfigurableMap.put( "point3", new Position( 100, 100 )  );
         
-        testObj.configObjectMsp = new LinkedHashMap<String, IConfigObject>();
+        testObj.configObjectMsp = new LinkedHashMap<String, ConfigObject>();
         testObj.configObjectMsp.put( "obj1", new TestObject2( "listObjRef1" ) );
         testObj.configObjectMsp.put( "obj2", new TestObject2( "listObjRef2" ) );
         testObj.configObjectMsp.put( "obj3", new TestObject2( "listObjRef3" ) );

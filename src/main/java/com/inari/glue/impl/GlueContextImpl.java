@@ -43,7 +43,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.inari.glue.GlueContext;
 import com.inari.glue.GlueException;
 import com.inari.glue.IConfigObjectFactory;
-import com.inari.commons.config.IConfigObject;
+import com.inari.commons.config.ConfigObject;
 import com.inari.commons.lang.TypedKey;
 
 public class GlueContextImpl implements GlueContext {
@@ -54,11 +54,11 @@ public class GlueContextImpl implements GlueContext {
 
     
     private Map<String, Alias> aliasMap = new HashMap<String, Alias>();
-    private Map<Class<? extends IConfigObject>, Alias> aliasByType = new HashMap<Class<? extends IConfigObject>, Alias>();
+    private Map<Class<? extends ConfigObject>, Alias> aliasByType = new HashMap<Class<? extends ConfigObject>, Alias>();
     
     private Map<String, ConfigData> configs = new HashMap<String, ConfigData>();
     
-    private Map<String, IConfigObject> instances = new HashMap<String, IConfigObject>();
+    private Map<String, ConfigObject> instances = new HashMap<String, ConfigObject>();
     private Map<Class<?>, IConfigObjectFactory<?>> factories = new  HashMap<Class<?>, IConfigObjectFactory<?>>();
     
     GlueContextImpl( String name ) {
@@ -74,9 +74,9 @@ public class GlueContextImpl implements GlueContext {
     
     @SuppressWarnings("unchecked")
     public Alias defineAlias( String typeName, String type ) throws GlueException {
-        Class<? extends IConfigObject> typeClass;
+        Class<? extends ConfigObject> typeClass;
         try {
-            typeClass = (Class<? extends IConfigObject>) Class.forName( type );
+            typeClass = (Class<? extends ConfigObject>) Class.forName( type );
             return defineAlias( typeName, typeClass );
         } catch ( ClassNotFoundException cnfe ) {
             throw new GlueException( "No type: " + type + " found on classpath!", cnfe );
@@ -86,7 +86,7 @@ public class GlueContextImpl implements GlueContext {
     }
 
     @Override
-    public Alias defineAlias( String typeName, Class<? extends IConfigObject> type ) throws GlueException {
+    public Alias defineAlias( String typeName, Class<? extends ConfigObject> type ) throws GlueException {
         if ( aliasMap.containsKey( typeName ) ) {
             throw new GlueException( "There is already a TypeDef for type-name: " + typeName + " registerd!" );
         }
@@ -105,7 +105,7 @@ public class GlueContextImpl implements GlueContext {
         return aliasMap.get( typeName );
     }
 
-    public Alias getAlias( Class<? extends IConfigObject> type ) {
+    public Alias getAlias( Class<? extends ConfigObject> type ) {
         return aliasByType.get( type );
     }
 
@@ -113,7 +113,7 @@ public class GlueContextImpl implements GlueContext {
         return aliasMap.values();
     }
     
-    public void removeAlias( Class<? extends IConfigObject> type ) {
+    public void removeAlias( Class<? extends ConfigObject> type ) {
         Alias toRemove = aliasByType.remove( type );
         if ( toRemove != null ) {
             aliasMap.remove( toRemove.alias() );
@@ -130,12 +130,12 @@ public class GlueContextImpl implements GlueContext {
     }
     
     @Override
-    public ConfigData createConfig( TypedKey<? extends IConfigObject> key ) throws GlueException {
+    public ConfigData createConfig( TypedKey<? extends ConfigObject> key ) throws GlueException {
         return createConfig( key.id(), key.type() );
     }
 
     @Override
-    public ConfigData createConfig( String id, Class<? extends IConfigObject> type ) throws GlueException {
+    public ConfigData createConfig( String id, Class<? extends ConfigObject> type ) throws GlueException {
         // TODO allow override!?
 //        if ( configs.containsKey( id ) ) {
 //            throw new GlueException( "There is already a Config with id: " + id + "!" );
@@ -148,7 +148,7 @@ public class GlueContextImpl implements GlueContext {
     }
 
     @Override
-    public ConfigData getOrCreateConfig( String id, Class<? extends IConfigObject> type ) {
+    public ConfigData getOrCreateConfig( String id, Class<? extends ConfigObject> type ) {
         if ( configs.containsKey( id ) ) {
             return configs.get( id );
         }
@@ -161,7 +161,7 @@ public class GlueContextImpl implements GlueContext {
     }
 
     @Override
-    public ConfigData getConfig( IConfigObject obj ) {
+    public ConfigData getConfig( ConfigObject obj ) {
         return configs.get( obj.configId() );
     }
     
@@ -184,11 +184,11 @@ public class GlueContextImpl implements GlueContext {
     }
 
     @Override
-    public <T extends IConfigObject> T getInstance( TypedKey<T> key ) {
+    public <T extends ConfigObject> T getInstance( TypedKey<T> key ) {
         if ( key == null ) {
             return null;
         }
-        IConfigObject untypedInstance = getUntypedInstance( key.id() );
+        ConfigObject untypedInstance = getUntypedInstance( key.id() );
         if ( untypedInstance == null ) {
             return null;
         }
@@ -197,11 +197,11 @@ public class GlueContextImpl implements GlueContext {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T extends IConfigObject> T getInstance( String id )  {
+    public <T extends ConfigObject> T getInstance( String id )  {
         return (T) getUntypedInstance( id );
     }
     
-    public IConfigObject getUntypedInstance( String id ) throws GlueException {
+    public ConfigObject getUntypedInstance( String id ) throws GlueException {
         if ( id == null ) {
             return null;
         }
@@ -224,7 +224,7 @@ public class GlueContextImpl implements GlueContext {
     }
     
     @SuppressWarnings("unchecked")
-    public <T extends IConfigObject> T newInstance( String id ) {
+    public <T extends ConfigObject> T newInstance( String id ) {
         if ( !configs.containsKey( id ) ) {
             throw new GlueException( "No Configuration with id:" + id + " found for context: " + name );
         }
@@ -234,7 +234,7 @@ public class GlueContextImpl implements GlueContext {
         }
         
         ConfigData config = configs.get( id );
-        IConfigObject instance = config.newInstance();
+        ConfigObject instance = config.newInstance();
         instances.put( id, instance );
         return (T) instance;
     }
@@ -259,11 +259,11 @@ public class GlueContextImpl implements GlueContext {
     }
 
     @Override
-    public void unregisterInstanceFactory( Class<? extends IConfigObject> type ) {
+    public void unregisterInstanceFactory( Class<? extends ConfigObject> type ) {
         factories.remove( type );
     }
     
-    protected IConfigObjectFactory<?> getInstanceFactory( Class<? extends IConfigObject> type ) {
+    protected IConfigObjectFactory<?> getInstanceFactory( Class<? extends ConfigObject> type ) {
         if ( type == null ) {
             return null;
         }
@@ -273,9 +273,9 @@ public class GlueContextImpl implements GlueContext {
         }
         
         Class<?> superclass = type.getSuperclass();
-        if ( ( superclass != null ) && IConfigObject.class.isAssignableFrom( superclass ) ) {
+        if ( ( superclass != null ) && ConfigObject.class.isAssignableFrom( superclass ) ) {
             @SuppressWarnings("unchecked")
-            Class<? extends IConfigObject> next = (Class<? extends IConfigObject>) superclass;
+            Class<? extends ConfigObject> next = (Class<? extends ConfigObject>) superclass;
             return getInstanceFactory( next );
         }
         

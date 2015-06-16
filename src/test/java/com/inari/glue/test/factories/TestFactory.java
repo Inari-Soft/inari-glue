@@ -1,9 +1,9 @@
 package com.inari.glue.test.factories;
 
 import com.inari.glue.IConfigObjectFactory;
-import com.inari.commons.config.IConfigObject;
+import com.inari.commons.config.ConfigObject;
 
-public class TestFactory<T extends IConfigObject> implements IConfigObjectFactory<T> {
+public class TestFactory<T extends ConfigObject> implements IConfigObjectFactory<T> {
     
     private final Class<T> type;
     public TestFactory( Class<T> type ) {

@@ -37,7 +37,7 @@ package com.inari.glue;
 
 import java.util.Collection;
 
-import com.inari.commons.config.IConfigObject;
+import com.inari.commons.config.ConfigObject;
 
 
 public interface GlueService {
@@ -50,6 +50,6 @@ public interface GlueService {
 
     public Collection<GlueContext> getContexts();
     
-    public void addConfig( GlueContext context, IConfigObject obj );
+    public void addConfig( GlueContext context, ConfigObject obj );
     
 }

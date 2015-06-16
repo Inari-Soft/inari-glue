@@ -44,8 +44,8 @@ import java.util.Map;
 
 import com.inari.glue.GlueException;
 import com.inari.commons.StringUtils;
-import com.inari.commons.config.IConfigObject;
-import com.inari.commons.config.IStringConfigurable;
+import com.inari.commons.config.ConfigObject;
+import com.inari.commons.config.StringConfigurable;
 import com.inari.commons.lang.TypedKey;
 
 public class ConfigData extends LinkedHashMap<String, String> {
@@ -53,10 +53,10 @@ public class ConfigData extends LinkedHashMap<String, String> {
 private static final long serialVersionUID = 8828190017974356696L;
     
     private String id;
-    private Class<? extends IConfigObject> type;
+    private Class<? extends ConfigObject> type;
     
     
-    public ConfigData( String id, Class<? extends IConfigObject> type ) {
+    public ConfigData( String id, Class<? extends ConfigObject> type ) {
         this.id = id;
         this.type = type;
     }
@@ -69,20 +69,20 @@ private static final long serialVersionUID = 8828190017974356696L;
         return "true".equals( get( name ) );
     }
     
-    public Class<? extends IConfigObject> type() {
+    public Class<? extends ConfigObject> type() {
         return type;
     }
     
-    public final IConfigObject newInstance() {
+    public final ConfigObject newInstance() {
         try {
-            Constructor<? extends IConfigObject> constructor = type.getDeclaredConstructor();
+            Constructor<? extends ConfigObject> constructor = type.getDeclaredConstructor();
             boolean isAccessible = constructor.isAccessible();
             if ( !isAccessible ) {
                 constructor.setAccessible( true );
             }
             constructor.setAccessible( true );
             
-            IConfigObject instance = constructor.newInstance();
+            ConfigObject instance = constructor.newInstance();
             instance.configId( id );
             
             if ( !isAccessible ) {
@@ -196,7 +196,7 @@ private static final long serialVersionUID = 8828190017974356696L;
         put( key, valueKey.id() );
     }
     
-    public void put( String key, IConfigObject value ) {
+    public void put( String key, ConfigObject value ) {
         if ( value != null ) {
             put( key, value.configId() );
         }
@@ -241,18 +241,18 @@ private static final long serialVersionUID = 8828190017974356696L;
     }
     
     protected void appendValue( StringBuilder builder, Object value ) {
-        if ( value instanceof IConfigObject ) {
-            String configId = ( (IConfigObject) value ).configId();
+        if ( value instanceof ConfigObject ) {
+            String configId = ( (ConfigObject) value ).configId();
             if ( configId != null ) {
                 builder.append( configId );
                 return;
             }
-            if ( value instanceof IStringConfigurable ) {
+            if ( value instanceof StringConfigurable ) {
                 appendStringConfigurableValue( builder, value );
                 return;
             }
             throw new GlueException( "Inherited Value Excpetion: The value: " + value + " has no configId and is not of type IStringConfigurable!" );
-        } else if ( value instanceof IStringConfigurable ) {
+        } else if ( value instanceof StringConfigurable ) {
             appendStringConfigurableValue( builder, value );
         } else {
             builder.append( String.valueOf( value ) );
@@ -260,7 +260,7 @@ private static final long serialVersionUID = 8828190017974356696L;
     }
     
     private void appendStringConfigurableValue( StringBuilder builder , Object value ) {
-        String stringValue = ( (IStringConfigurable) value ).toConfigString();
+        String stringValue = ( (StringConfigurable) value ).toConfigString();
         stringValue = StringUtils.escapeSeparatorKeys( stringValue );
         builder.append( stringValue );
     }

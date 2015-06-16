@@ -1,9 +1,9 @@
 package com.inari.glue.test;
 
 import com.inari.commons.config.Configured;
-import com.inari.commons.config.IConfigObject;
+import com.inari.commons.config.ConfigObject;
 
-public class TestObjectMandatory implements IConfigObject {
+public class TestObjectMandatory implements ConfigObject {
     
     private String id;
     

@@ -46,8 +46,8 @@ import com.inari.glue.GlueException;
 import com.inari.glue.IConfigObjectFactory;
 import com.inari.commons.StringUtils;
 import com.inari.commons.config.Configured;
-import com.inari.commons.config.IConfigObject;
-import com.inari.commons.config.IStringConfigurable;
+import com.inari.commons.config.ConfigObject;
+import com.inari.commons.config.StringConfigurable;
 
 public class InstanceFactory {
 
@@ -67,7 +67,7 @@ public class InstanceFactory {
             throw new GlueException( "No ConfigData for id: " + id + " exists for context: " + context.name() + "!" );
         }
 
-        IConfigObject instance = context.newInstance( id );
+        ConfigObject instance = context.newInstance( id );
         
         Collection<Field> fields = GlueUtils.getAllConfiguredFields( instance );
         for ( Field field : fields ) {
@@ -75,7 +75,7 @@ public class InstanceFactory {
         }
         
         @SuppressWarnings("unchecked")
-        IConfigObjectFactory<IConfigObject> instanceFactory = (IConfigObjectFactory<IConfigObject>) context.getInstanceFactory( instance.getClass() );
+        IConfigObjectFactory<ConfigObject> instanceFactory = (IConfigObjectFactory<ConfigObject>) context.getInstanceFactory( instance.getClass() );
         if ( instanceFactory != null ) {
             instanceFactory.build( instance );
         }
@@ -83,7 +83,7 @@ public class InstanceFactory {
     
     
 
-    protected void setFieldValue( Field field, IConfigObject instance, ConfigData configData ) {
+    protected void setFieldValue( Field field, ConfigObject instance, ConfigData configData ) {
         Configured configProperty = field.getAnnotation( Configured.class );
         if ( configProperty == null ) {
             return;
@@ -103,10 +103,10 @@ public class InstanceFactory {
             return;
         }
         
-        if ( IConfigObject.class.isAssignableFrom( field.getType() ) ) {
+        if ( ConfigObject.class.isAssignableFrom( field.getType() ) ) {
             String reference = configData.get( referenceId );
             if ( 
-                IStringConfigurable.class.isAssignableFrom( field.getType() ) && 
+                StringConfigurable.class.isAssignableFrom( field.getType() ) && 
                 !configData.containsKey( reference ) 
             ) {
                 
@@ -121,13 +121,13 @@ public class InstanceFactory {
         setProperty( configProperty, field, instance, configData, referenceId );
     }
     
-    protected void setReference( Field field, IConfigObject instance, String configDataId ) {
+    protected void setReference( Field field, ConfigObject instance, String configDataId ) {
         Class<?> type = field.getType();
-        if ( !IConfigObject.class.isAssignableFrom( type ) ) {
+        if ( !ConfigObject.class.isAssignableFrom( type ) ) {
             throw new GlueException( "Configuration Annotation failure: A ConfigReference annotated field must be of type IConfigObject! instance: " + instance + " field: " + field ); 
         }
         
-        IConfigObject value = context.getInstance( configDataId );
+        ConfigObject value = context.getInstance( configDataId );
         boolean accessible = field.isAccessible();
         field.setAccessible( true );
         try { 
@@ -139,7 +139,7 @@ public class InstanceFactory {
         }
     }
     
-    protected void setProperty( Configured configured, Field field, IConfigObject instance, ConfigData configData, String configDataId ) {
+    protected void setProperty( Configured configured, Field field, ConfigObject instance, ConfigData configData, String configDataId ) {
         Class<?> type = field.getType();
         if ( configured.type() != Object.class ) {
             type = configured.type();
@@ -257,7 +257,7 @@ public class InstanceFactory {
             return context.getInstance( value );
         }
         // for IStringConfigurable types 
-        if ( IStringConfigurable.class.isAssignableFrom( type ) ) {
+        if ( StringConfigurable.class.isAssignableFrom( type ) ) {
             return getStringConfigurable( type, value );
         }
 
@@ -266,7 +266,7 @@ public class InstanceFactory {
     
     private Object getStringConfigurable( Class<?> type, String value ) {
         try {
-            IStringConfigurable valueInstance = (IStringConfigurable) type.newInstance(); 
+            StringConfigurable valueInstance = (StringConfigurable) type.newInstance(); 
             valueInstance.fromConfigString( value );
             return valueInstance;
         } catch ( Exception e ) {

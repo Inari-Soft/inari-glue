@@ -1,9 +1,9 @@
 package com.inari.glue.test;
 
 import com.inari.commons.config.Configured;
-import com.inari.commons.config.IConfigObject;
+import com.inari.commons.config.ConfigObject;
 
-public class TestY extends TestX implements IConfigObject {
+public class TestY extends TestX implements ConfigObject {
     
     @Configured
     protected String valueY;
