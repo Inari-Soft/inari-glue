@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<InariConfiguration name="example1" description="hello" version="0.1" date="datum">
+	
+	<Alias name="type1" type="com.inari.glue.test.TestObject1" />
+	<Alias name="type2" type="com.inari.glue.test.TestObject2" />
+
+	<Object id="object1" type="type1">
+		<Property name="value1">value1</Property>
+		<Property name="ref1">object2</Property>
+	</Object>
+	
+	<Object id="object2" type="type2">
+		<Property name="value1">value1</Property>
+	</Object>
+
+</InariConfiguration>

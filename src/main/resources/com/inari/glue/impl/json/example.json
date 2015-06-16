@@ -1,0 +1,21 @@
+{ 
+	"InariConfiguration": {
+		"name": "test",
+	    "version": "1.0",
+	    "description": "hello",
+	    "createAt": "datum"
+	},
+	 "TypeDef": [
+		{ "typeName": "typeName1", "type": "com.inari.glue.impl.TestObject1" },
+		{ "typeName": "typeName2", "type": "com.inari.glue.impl.TestObject2" }
+	 ],
+	 "Objects": [
+		{ "id": "object1", "type": "typeName1", "properties": {
+			"value1": "value1",
+			"ref1": "object2"
+		} },
+		{ "id": "object2", "type": "typeName2", "properties": {
+			"value1": "value1",
+		} }
+	]
+}
